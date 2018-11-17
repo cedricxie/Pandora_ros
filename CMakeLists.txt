@@ -5,6 +5,8 @@ catkin_package(
     CATKIN_DEPENDS)
 
 find_package(catkin REQUIRED COMPONENTS
+    pcl_ros
+    pcl_conversions
     cv_bridge
     image_transport
     roscpp
