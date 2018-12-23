@@ -158,12 +158,14 @@ class PandoraClient {
         cv::cvtColor(*matp, grayMat, CV_RGB2GRAY);
         imgMsg = cv_bridge::CvImage(std_msgs::Header(), "mono8", grayMat).toImageMsg();
     }
-    imgMsg->header.stamp = ros::Time(timestamp);
+    // imgMsg->header.stamp = ros::Time(timestamp);
+    imgMsg->header.stamp = ros::Time::now();  // replace stamp with ecu time
     imgPublishers[pic_id].publish(imgMsg);
   }
 
   void lidarCallback(boost::shared_ptr<PPointCloud> cld, double timestamp) {
-    pcl_conversions::toPCL(ros::Time(timestamp), cld->header.stamp);
+    // pcl_conversions::toPCL(ros::Time(timestamp), cld->header.stamp);
+    pcl_conversions::toPCL(ros::Time::now(), cld->header.stamp);   // replace stamp with ecu time
     sensor_msgs::PointCloud2 output;
     pcl::toROSMsg(*cld, output);
     lidarPublisher.publish(output);
